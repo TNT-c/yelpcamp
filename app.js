@@ -2,10 +2,17 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+// var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var User = require('./models/userModel');
+var config = require('./config');
 
 var index = require('./routes/index');
+var camps = require('./routes/camps');
 var users = require('./routes/users');
 
 var app = express();
@@ -22,8 +29,39 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cookieParser());
+
+
+
+// Passport Configuration
+app.use(require('cookie-session')({
+  secret: "This is the yelpCamp example",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Routes
 app.use('/', index);
+app.use('/camps', camps);
+app.use('/camps/new', camps);
 app.use('/users', users);
+
+// replaces the deprecated mongoose.Promise with the JavaScript global.Promise library
+mongoose.Promise = global.Promise;
+
+// Current User
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+});
+
+// Connect Mongoose
+mongoose.connect(config.getDbConnectionString());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

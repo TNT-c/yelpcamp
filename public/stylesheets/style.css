@@ -1,8 +1,24 @@
 body {
-  padding: 50px;
+  margin: 0 auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.body-container {
+  margin: 0 auto;
 }
 
 a {
   color: #00B7FF;
+}
+
+#banner {
+  width: 100%;
+}
+#submitButton {
+  margin-top: 3px;
+}
+
+#campGallery {
+  display: flex;
+  flex-wrap: wrap;
 }
