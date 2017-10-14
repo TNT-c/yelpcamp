@@ -12,24 +12,24 @@ function isLoggedIn(req, res, next){
   }
   res.redirect('/login');
 }
-var camps = [
-  {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
-  {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
-  {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
-  {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
-  {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
-  {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
-  {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
-  {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"}
-];
+// var camps = [
+//   {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
+//   {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
+//   {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
+//   {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
+//   {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
+//   {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
+//   {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
+//   {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"}
+// ];
 
 // GET camp page
 router.get('/', function(req, res, next) {
-  // Camps.find({}, function(err, allCamps) {
-  //   if (err) throw err;
-  //   res.render('camps', { camps: allCamps, currentUser: req.user });
-  // });
-  res.render('camps', { camps: camps});
+  Camps.find({}, function(err, allCamps) {
+    if (err) throw err;
+    res.render('camps', { camps: allCamps});
+  });
+  // res.render('camps', { camps: camps});
 
 });
 

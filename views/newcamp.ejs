@@ -1,11 +1,19 @@
 <% include partials/header %>
 
-<h1>New Camp Form</h1>
 
-<form action="/camps" method="POST">
-  <input type="text" name="name" placeholder="name">
-  <input type="text"name="image" placeholder="image">
-  <button>Submit!</button>
-</form>
+
+<div id="banner">
+  <img src="/images/yelpcamp2.jpg" class="img-fluid"/>
+</div>
+<div class="container">
+  <div class="container">
+    <h1>New Camp Form</h1>
+    <form action="/camps" method="POST">
+      <input type="text" name="name" placeholder="name">
+      <input type="text"name="image" placeholder="image">
+      <button>Submit!</button>
+    </form>
+  </div>
+</div>
 
 <% include partials/footer %>

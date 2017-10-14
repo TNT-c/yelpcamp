@@ -65,7 +65,7 @@ router.post('/register', function(req, res){
       username: userName,
       password: password
     });
-    
+
     User.register(newUser, password, function(err, user){
       if(err){
         console.log(err);
