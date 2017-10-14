@@ -46,6 +46,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Current User
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+});
+
 // Routes
 app.use('/', index);
 app.use('/camps', camps);
@@ -55,10 +61,7 @@ app.use('/users', users);
 // replaces the deprecated mongoose.Promise with the JavaScript global.Promise library
 mongoose.Promise = global.Promise;
 
-// Current User
-app.use(function(req, res, next){
-  res.locals.currentUser = req.user;
-});
+
 
 // Connect Mongoose
 mongoose.connect(config.getDbConnectionString());

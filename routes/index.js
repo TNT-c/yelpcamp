@@ -8,7 +8,7 @@ var app = require('../app');
 
 // GET Home page
 router.get('/', function(req, res, next) {
-  console.log('hi there');
+  // console.log(currentUser);
   res.render('index', { title: 'Express' });
 });
 
@@ -24,7 +24,7 @@ router.post('/login', passport.authenticate('local', {
 
 router.get('/logout', function(req, res){
   req.logout();
-  res.redirect('/camps');
+  res.redirect('/');
 });
 
 function isLoggedIn(req, res, next){
