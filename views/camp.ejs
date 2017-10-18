@@ -2,20 +2,22 @@
 
 <div class="container">
   <div class="container">
-    <div>
-      <img class="img-thumbnail" src="<%= camp.image %>">
-      <h3><%= camp.name %></h3>
-      <p> <em>Submitted By: <%= camp.author.username %></em></p>
-      <p><%= camp.description %></p>
+    <div class="row">
+      <div class="col-md-9">
+        <img class="img-thumbnail" src="<%= camp.image %>">
+        <h3><%= camp.name %></h3>
+        <p> <em>Submitted By: <%= camp.author.username %></em></p>
+        <p><%= camp.description %></p>
+      </div>
     </div>
 
     <div id="campbuttons">
       <div id="editbutton">
-        <a href="/camps/<%= camp._id %>/edit" class="btn btn-primary">Edit</a>
+        <a href="/camps/<%= camp._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
       </div>
       <div id="submitButton">
-        <form action="/camps/<%= camp._id %>/delete" method="POST">
-          <button class="btn btn-primary">Delete</button>
+        <form id ="deletebutton" action="/camps/<%= camp._id %>/delete" method="POST">
+          <button class="btn btn-sm btn-danger">Delete</button>
         </form>
       </div>
     </div>
