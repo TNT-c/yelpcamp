@@ -17,7 +17,13 @@ a {
 #submitButton {
   margin-top: 3px;
 }
-
+#divbuttons, #editbutton {
+  float: left;
+  margin-bottom: 20px;
+}
+#editbutton{
+  margin-right: 10px;
+}
 #campGallery {
   display: flex;
   flex-wrap: wrap;

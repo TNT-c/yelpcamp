@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-// POST camp page
+// CREATE  new camp
 router.post('/', isLoggedIn, function(req, res, next) {
   if (req.body.id) {
     Camps.findByIdAndUpdate(req.body.id, {
@@ -44,17 +44,37 @@ router.post('/', isLoggedIn, function(req, res, next) {
     });
   }
   else {
-    var newCamp = Camps({
-      name: req.body.name,
-      image: req.body.image
-    });
-    newCamp.save(function(err){
-      if (err) {
+    // var newCamp = Camps({
+    //   name: req.body.name,
+    //   image: req.body.image,
+    //   description: req.body.description
+    // });
+    // newCamp.save(function(err){
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     res.redirect('/camps')
+    //   }
+    // });
+    var name = req.body.name;
+    var image = req.body.image;
+    var description = req.body.description;
+    var author = {
+      id: req.user._id,
+      username: req.user.username
+    }
+    var newCamp = {name: name, image: image, description: description, author: author}
+    //Create new campground and save to DB
+    Camps.create(newCamp, function(err, newlyCreated){
+      if(err){
         console.log(err);
       } else {
-        res.redirect('/camps')
+        //redirect back to campgrounds page
+        console.log(newlyCreated);
+        res.redirect("/camps");
       }
     });
+    console.log('New campground saved!');
   }
 });
 

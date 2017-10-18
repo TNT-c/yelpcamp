@@ -65,6 +65,7 @@ mongoose.Promise = global.Promise;
 
 // Connect Mongoose
 mongoose.connect(config.getDbConnectionString());
+console.log('Connected to YelpCamp!')
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
