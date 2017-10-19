@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var User = require('./models/userModel');
 var config = require('./config');
+var flash = require('connect-flash');
 
 var index = require('./routes/index');
 var camps = require('./routes/camps');
@@ -30,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieParser());
-
+app.use(flash());
 
 
 // Passport Configuration

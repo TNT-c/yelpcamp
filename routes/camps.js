@@ -5,7 +5,7 @@ var passport = require('passport');
 var User = require('../models/userModel')
 var LocalStrategy = require('passport-local');
 var app = require('../app');
-
+var middleware = require('../middleware');
 
 // var camps = [
 //   {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
 });
 
 // CREATE  new camp
-router.post('/', isLoggedIn, function(req, res, next) {
+router.post('/', middleware.isLoggedIn, function(req, res, next) {
   if (req.body.id) {
     Camps.findByIdAndUpdate(req.body.id, {
       name: req.body.name, image: req.body.image
@@ -74,7 +74,7 @@ router.post('/', isLoggedIn, function(req, res, next) {
 });
 
 // GET add new camp page
-router.get('/new', isLoggedIn, function(req, res, next) {
+router.get('/new', middleware.isLoggedIn, function(req, res, next) {
   res.render('newcamp');
 });
 
@@ -90,7 +90,7 @@ router.get('/:id', function(req, res) {
 });
 
 // UPDATE a camp
-router.get('/:id/edit', checkCampgroundOwnership, function(req, res, next) {
+router.get('/:id/edit', middleware.checkCampgroundOwnership, function(req, res, next) {
   //Is user logged in? Does user own campground?
     Camps.findById(req.params.id, function(err, foundCamp) {
       res.render('editcamp', {camp: foundCamp});
@@ -98,7 +98,7 @@ router.get('/:id/edit', checkCampgroundOwnership, function(req, res, next) {
   });
 
 // EDIT route
-router.post('/:id', checkCampgroundOwnership, function(req, res){
+router.post('/:id', middleware.checkCampgroundOwnership, function(req, res){
   Camps.findByIdAndUpdate(req.params.id, req.body, function(err, updatedCamp){
     if(err){
       res.redirect("/camps");
@@ -109,7 +109,7 @@ router.post('/:id', checkCampgroundOwnership, function(req, res){
 });
 
 // DELETE a camp
-router.post('/:id/delete', checkCampgroundOwnership, function(req, res, next){
+router.post('/:id/delete', middleware.checkCampgroundOwnership, function(req, res, next){
   Camps.findByIdAndRemove({_id: req.params.id}).then(function(camp){
     res.redirect('/camps');
   });
@@ -117,29 +117,29 @@ router.post('/:id/delete', checkCampgroundOwnership, function(req, res, next){
 
 // Middleware
 
-function checkCampgroundOwnership(req, res, next) {
-  //Is user logged in? Does user own campground?
-  if(req.isAuthenticated()){
-    Camps.findById(req.params.id, function(err, foundCamp) {
-      if (err) {
-        res.redirect('/camps')
-      } else {
-          if(foundCamp.author.id.equals(req.user._id)) {
-            next();
-          } else {
-            res.redirect('back');
-          }
-        }
-      });
-    } else {
-      res.redirect('back');
-    }
-}
-
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect('/login');
-}
+// function checkCampgroundOwnership(req, res, next) {
+//   //Is user logged in? Does user own campground?
+//   if(req.isAuthenticated()){
+//     Camps.findById(req.params.id, function(err, foundCamp) {
+//       if (err) {
+//         res.redirect('/camps')
+//       } else {
+//           if(foundCamp.author.id.equals(req.user._id)) {
+//             next();
+//           } else {
+//             res.redirect('back');
+//           }
+//         }
+//       });
+//     } else {
+//       res.redirect('back');
+//     }
+// }
+//
+// function isLoggedIn(req, res, next){
+//   if(req.isAuthenticated()){
+//     return next();
+//   }
+//   res.redirect('/login');
+// }
 module.exports = router;
