@@ -6,12 +6,7 @@ var User = require('../models/userModel')
 var LocalStrategy = require('passport-local');
 var app = require('../app');
 
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect('/login');
-}
+
 // var camps = [
 //   {name: "Salmon Creek", image: "https://www.nps.gov/zion/planyourvisit/images/South_CG_r_1.jpg"},
 //   {name: "Rocky Ledge", image: "http://avaloncampground.com/wp-content/uploads/2013/07/Avalon-Campground-table-woods.png"},
@@ -95,15 +90,15 @@ router.get('/:id', function(req, res) {
 });
 
 // UPDATE a camp
-router.get('/:id/edit', function(req, res, next) {
-  Camps.findById(req.params.id, function(err, camp) {
-    if (err) throw err;
-
-    res.render('editcamp', {camp: camp});
+router.get('/:id/edit', checkCampgroundOwnership, function(req, res, next) {
+  //Is user logged in? Does user own campground?
+    Camps.findById(req.params.id, function(err, foundCamp) {
+      res.render('editcamp', {camp: foundCamp});
+    });
   });
-});
+
 // EDIT route
-router.post('/:id', function(req, res){
+router.post('/:id', checkCampgroundOwnership, function(req, res){
   Camps.findByIdAndUpdate(req.params.id, req.body, function(err, updatedCamp){
     if(err){
       res.redirect("/camps");
@@ -119,4 +114,32 @@ router.post('/:id/delete', function(req, res, next){
     res.redirect('/camps');
   });
 });
+
+// Middleware
+
+function checkCampgroundOwnership(req, res, next) {
+  //Is user logged in? Does user own campground?
+  if(req.isAuthenticated()){
+    Camps.findById(req.params.id, function(err, foundCamp) {
+      if (err) {
+        res.redirect('/camps')
+      } else {
+          if(foundCamp.author.id.equals(req.user._id)) {
+            next();
+          } else {
+            res.redirect('back');
+          }
+        }
+      });
+    } else {
+      res.redirect('back');
+    }
+}
+
+function isLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect('/login');
+}
 module.exports = router;
