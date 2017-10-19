@@ -109,7 +109,7 @@ router.post('/:id', checkCampgroundOwnership, function(req, res){
 });
 
 // DELETE a camp
-router.post('/:id/delete', function(req, res, next){
+router.post('/:id/delete', checkCampgroundOwnership, function(req, res, next){
   Camps.findByIdAndRemove({_id: req.params.id}).then(function(camp){
     res.redirect('/camps');
   });

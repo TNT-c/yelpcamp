@@ -11,6 +11,7 @@
       </div>
     </div>
 
+    <% if(currentUser && camp.author.id.equals(currentUser._id)) {%>
     <div id="campbuttons">
       <div id="editbutton">
         <a href="/camps/<%= camp._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
@@ -21,7 +22,7 @@
         </form>
       </div>
     </div>
-
+    <% } %>
   <% include partials/footer %>
 
 </div>
