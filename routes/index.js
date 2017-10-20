@@ -24,15 +24,16 @@ router.post('/login', passport.authenticate('local', {
 
 router.get('/logout', function(req, res){
   req.logout();
+  req.flash('error', 'Logged You Out');
   res.redirect('/');
 });
 
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect('/login');
-}
+// function isLoggedIn(req, res, next){
+//   if(req.isAuthenticated()){
+//     return next();
+//   }
+//   res.redirect('/login');
+// }
 
   // var userName = req.body.username;
   // var password = req.body.password;
