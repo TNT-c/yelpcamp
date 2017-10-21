@@ -40,4 +40,16 @@
     </div>
   </nav>
 </div>
-    <h1><%= message  %></h1>
+
+<div class="container">
+  <% if(bad && bad.length > 0) { %>
+  <div class="alert alert-danger" role="alert">
+    <strong><%= bad  %></strong>
+  </div>
+  <% } %>
+  <% if(success && success.length > 0) { %>
+  <div class="alert alert-success" role="alert">
+    <strong><%= success  %></strong>
+  </div>
+  <% } %>
+</div>

@@ -13,18 +13,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function(req, res){
-  res.render('login', {message: req.flash('error')});
+  res.render('login');
 });
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/camps',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  successFlash: 'Welcome Back!'
   }), function(req, res){
 });
 
 router.get('/logout', function(req, res){
   req.logout();
-  req.flash('error', 'Logged You Out');
+  req.flash('success', 'Logged You Out');
   res.redirect('/');
 });
 
@@ -69,10 +70,12 @@ router.post('/register', function(req, res){
 
     User.register(newUser, password, function(err, user){
       if(err){
-        console.log(err);
-        return res.render('register');
+        console.log(err.message);
+        req.flash('bad', err.message);
+        return res.redirect('register');
       }
       passport.authenticate('local')(req,res, function(){
+        req.flash('success', 'Welcome to YelpCamp ' + user.username);
         res.redirect('/camps');
       });
     });

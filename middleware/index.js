@@ -7,11 +7,13 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next) {
     if(req.isAuthenticated()){
       Camps.findById(req.params.id, function(err, foundCamp) {
         if (err) {
+          res.flash('warning', 'Campground not found');
           res.redirect('/camps')
         } else {
             if(foundCamp.author.id.equals(req.user._id)) {
               next();
             } else {
+              res.flash('warning', "You don't have permission");
               res.redirect('back');
             }
           }
@@ -25,7 +27,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
       return next();
     }
-    req.flash('error', 'Please Log In First!');
+    req.flash('bad', 'Log In Required');
     res.redirect('/login');
 }
 

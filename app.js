@@ -47,10 +47,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Current User
+// Current User and Flash
 app.use(function(req, res, next){
   res.locals.currentUser = req.user;
-  res.locals.message = req.flash('error'); 
+  // res.locals.mssg = req.flash('error');
+  res.locals.success = req.flash('success');
+  res.locals.bad = req.flash('bad');
   next();
 });
 
