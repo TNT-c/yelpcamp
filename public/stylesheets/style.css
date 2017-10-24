@@ -11,6 +11,11 @@ a {
   color: #00B7FF;
 }
 
+div#newcamp {
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
 #banner {
   width: 100%;
 }
